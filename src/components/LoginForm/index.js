@@ -60,7 +60,7 @@ class LoginForm extends Component {
     return (
       <>
         <label htmlFor="username" className="label">
-          USERNAME{' '}
+          USERNAME
         </label>
         <input
           type="text"
@@ -119,17 +119,6 @@ class LoginForm extends Component {
 
           {this.renderUsernameInput()}
           {this.renderPasswordInput()}
-          <div className="show-password-container">
-            <input
-              type="checkbox"
-              className="show-password"
-              id="show-password"
-              onChange={this.onChangeShowPassword}
-            />
-            <label className="show-password-label" htmlFor="show-password">
-              Show Password
-            </label>
-          </div>
           {showSubmitError && <p className="error-msg">*{errorMsg}</p>}
           <button type="submit" className="login-btn">
             Login

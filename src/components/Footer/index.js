@@ -24,16 +24,19 @@ const Footer = () => (
     <div className="social-media-icons-box">
       <FaInstagram
         className="social-media-icon"
-        testid="instagram-social-icon"
+        data-testid="instagram-social-icon"
       />
-      <FaTwitter className="social-media-icon" testid="twitter-social-icon" />
+      <FaTwitter
+        className="social-media-icon"
+        data-testid="twitter-social-icon"
+      />
       <FaFacebookSquare
         className="social-media-icon"
-        testid="facebook-social-icon"
+        data-testid="facebook-social-icon"
       />
       <FaPinterestSquare
         className="social-media-icon"
-        testid="pintrest-social-icon"
+        data-testid="pintrest-social-icon"
       />
     </div>
   </div>

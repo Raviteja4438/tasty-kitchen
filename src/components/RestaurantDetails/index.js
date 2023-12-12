@@ -9,7 +9,7 @@ import Footer from '../Footer'
 import './index.css'
 
 class RestaurantDetails extends Component {
-  state = {restaurantData: {}, foodItems: [], isLoading: false}
+  state = {restaurantData: {}, foodItem: [], isLoading: false}
 
   componentDidMount() {
     this.getRestaurantsData()
@@ -54,12 +54,12 @@ class RestaurantDetails extends Component {
         cost: eachItem.cost,
         rating: eachItem.rating,
       }))
-      this.setState({foodItems: foodItemsUpdatedData, isLoading: false})
+      this.setState({foodItem: foodItemsUpdatedData, isLoading: false})
     }
   }
 
   renderRestaurantsDetailsView = () => {
-    const {restaurantData, foodItems} = this.state
+    const {restaurantData, foodItem} = this.state
     const {
       costForTwo,
       cuisine,
@@ -101,7 +101,7 @@ class RestaurantDetails extends Component {
           </div>
         </li>
         <ul className="food-item-view-container">
-          {foodItems.map(eachItem => (
+          {foodItem.map(eachItem => (
             <FoodCard key={eachItem.id} foodDetails={eachItem} />
           ))}
         </ul>
@@ -116,9 +116,9 @@ class RestaurantDetails extends Component {
   )
 
   render() {
-    const {restaurantData, foodItems, isLoading} = this.state
+    const {restaurantData, foodItem, isLoading} = this.state
     console.log(restaurantData)
-    console.log(foodItems)
+    console.log(foodItem)
     return (
       <>
         <Header />
