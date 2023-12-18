@@ -1,111 +1,153 @@
 import {Component} from 'react'
-import {Route, Redirect, Switch} from 'react-router-dom'
-import LoginForm from './components/LoginForm'
-import RestaurantDetails from './components/RestaurantDetails'
+import {Switch, Route, Redirect} from 'react-router-dom'
 import Home from './components/Home'
-import NotFound from './components/NotFound'
 import Cart from './components/Cart'
+import NotFound from './components/NotFound'
+import LoginForm from './components/LoginForm'
 import ProtectedRoute from './components/ProtectedRoute'
+import RestaurantDetailSection from './components/RestaurantDetailSection'
 import CartContext from './context/CartContext'
+import PaymentSuccess from './components/PaymentSuccess'
+
 import './App.css'
 
-const initializeCartList = () => {
-  const cartList = localStorage.getItem('cartData')
-
-  if (cartList === null) {
-    return []
-  }
-  return JSON.parse(cartList)
-}
+const sortByOptions = [
+  {
+    id: 0,
+    displayText: 'Highest',
+    value: 'Highest',
+  },
+  {
+    id: 2,
+    displayText: 'Lowest',
+    value: 'Lowest',
+  },
+]
 
 class App extends Component {
-  state = {cartList: initializeCartList(), isOrderPlaced: false}
-
-  addCartItem = item => {
-    this.setState(
-      prevState => ({
-        isOrderPlaced: false,
-        cartList: [...prevState.cartList, item],
-      }),
-      this.updateLocalStorage,
-    )
+  constructor(props) {
+    super(props)
+    this.state = {
+      cartData: [],
+    }
   }
 
-  getQuantityOfItem = id => {
-    const {cartList} = this.state
-    const currentItem = cartList.find(item => item.id === id)
-    return currentItem === undefined ? 0 : currentItem.quantity
+  componentDidMount() {
+    if (localStorage.getItem('cartData')) {
+      this.setState({
+        cartData: JSON.parse(localStorage.getItem('cartData')),
+      })
+    } else {
+      const {cartData} = this.state
+      localStorage.setItem('cartData', JSON.stringify(cartData))
+    }
+  }
+
+  componentDidUpdate() {
+    const {cartData} = this.state
+    localStorage.setItem('cartData', JSON.stringify(cartData))
+  }
+
+  removeAllCartItems = () => {
+    this.setState({cartData: []})
+  }
+
+  incrementCartItemQuantity = id => {
+    this.setState(prevState => ({
+      cartData: prevState.cartData.map(eachCartItem => {
+        if (id === eachCartItem.id) {
+          const updatedQuantity = eachCartItem.quantity + 1
+          return {...eachCartItem, quantity: updatedQuantity}
+        }
+        return eachCartItem
+      }),
+    }))
+  }
+
+  decrementCartItemQuantity = id => {
+    const {cartData} = this.state
+    const foodObject = cartData.find(eachCartItem => eachCartItem.id === id)
+    if (foodObject.quantity > 1) {
+      this.setState(prevState => ({
+        cartData: prevState.cartData.map(eachCartItem => {
+          if (id === eachCartItem.id) {
+            const updatedQuantity = eachCartItem.quantity - 1
+            return {...eachCartItem, quantity: updatedQuantity}
+          }
+          return eachCartItem
+        }),
+      }))
+    } else {
+      this.removeCartItem(id)
+    }
   }
 
   removeCartItem = id => {
-    this.setState(
-      prevState => ({
-        cartList: prevState.cartList.filter(item => item.id !== id),
-      }),
-      this.updateLocalStorage,
+    const {cartData} = this.state
+    const updatedCartData = cartData.filter(
+      eachCartItem => eachCartItem.id !== id,
     )
+
+    this.setState({cartData: updatedCartData})
   }
 
-  increaseQuantity = id => {
-    this.setState(
-      prevState => ({
-        cartList: prevState.cartList.map(item => {
-          if (item.id === id) {
-            return {...item, quantity: item.quantity + 1}
+  addCartItem = foodItem => {
+    const {cartData} = this.state
+    const foodObject = cartData.find(
+      eachCartItem => eachCartItem.id === foodItem.id,
+    )
+
+    if (foodObject) {
+      this.setState(prevState => ({
+        cartData: prevState.cartData.map(eachCartItem => {
+          if (foodObject.id === eachCartItem.id) {
+            const updatedQuantity = eachCartItem.quantity + foodItem.quantity
+
+            return {...eachCartItem, quantity: updatedQuantity}
           }
-          return item
+
+          return eachCartItem
         }),
-      }),
-      this.updateLocalStorage,
-    )
-  }
+      }))
+    } else {
+      const updatedCartData = [...cartData, foodItem]
 
-  decreaseQuantity = id => {
-    this.setState(
-      prevState => ({
-        cartList: prevState.cartList.map(item => {
-          if (item.id === id) {
-            return {...item, quantity: item.quantity - 1}
-          }
-          return item
-        }),
-      }),
-      this.updateLocalStorage,
-    )
-  }
-
-  placeOrder = () => {
-    this.setState({cartList: [], isOrderPlaced: true}, this.updateLocalStorage)
-  }
-
-  updateLocalStorage = () => {
-    const {cartList} = this.state
-    localStorage.setItem('cartData', JSON.stringify(cartList))
+      this.setState({cartData: updatedCartData})
+    }
   }
 
   render() {
-    const {cartList, isOrderPlaced} = this.state
+    const {cartData} = this.state
 
-    const cartContextValue = {
-      cartList,
-      isOrderPlaced,
-      placeOrder: this.placeOrder,
-      addCartItem: this.addCartItem,
-      getQuantityOfItem: this.getQuantityOfItem,
-      removeCartItem: this.removeCartItem,
-      increaseQuantity: this.increaseQuantity,
-      decreaseQuantity: this.decreaseQuantity,
-    }
     return (
-      <CartContext.Provider value={cartContextValue}>
+      <CartContext.Provider
+        value={{
+          cartData,
+          addCartItem: this.addCartItem,
+          removeCartItem: this.removeCartItem,
+          incrementCartItemQuantity: this.incrementCartItemQuantity,
+          decrementCartItemQuantity: this.decrementCartItemQuantity,
+          removeAllCartItems: this.removeAllCartItems,
+        }}
+      >
         <Switch>
           <Route exact path="/login" component={LoginForm} />
-          <ProtectedRoute exact path="/" component={Home} />
-          <ProtectedRoute exact path="/cart" component={Cart} />
+          <ProtectedRoute
+            exact
+            path="/"
+            component={Home}
+            sortByOptions={sortByOptions}
+          />
           <ProtectedRoute
             exact
             path="/restaurant/:id"
-            component={RestaurantDetails}
+            component={RestaurantDetailSection}
+          />
+          <ProtectedRoute exact path="/cart" component={Cart} />
+          <ProtectedRoute
+            exact
+            path="/payment-success"
+            component={PaymentSuccess}
           />
           <Route exact path="/not-found" component={NotFound} />
           <Redirect to="/not-found" />
@@ -114,4 +156,5 @@ class App extends Component {
     )
   }
 }
+
 export default App

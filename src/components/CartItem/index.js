@@ -1,5 +1,6 @@
-import {BiRupee} from 'react-icons/bi'
+import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
 import {AiFillCloseCircle} from 'react-icons/ai'
+
 import CartContext from '../../context/CartContext'
 
 import './index.css'
@@ -7,68 +8,75 @@ import './index.css'
 const CartItem = props => (
   <CartContext.Consumer>
     {value => {
-      const {removeCartItem, increaseQuantity, decreaseQuantity} = value
+      const {
+        removeCartItem,
+        increaseCartItemQuantity,
+        decreaseCartItemQuantity,
+      } = value
       const {cartItemDetails} = props
       const {id, imageUrl, name, cost, quantity} = cartItemDetails
 
-      const onClickCloseBtn = () => {
+      const onClickDecrement = () => {
+        decreaseCartItemQuantity(id)
+      }
+      const onClickIncrement = () => {
+        increaseCartItemQuantity(id)
+      }
+      const onRemoveCartItem = () => {
         removeCartItem(id)
       }
-
-      const onClickIncrement = () => {
-        increaseQuantity(id)
-      }
-
-      const onClickDecrement = () => {
-        const newQuantity = quantity - 1
-        if (newQuantity === 0) {
-          removeCartItem(id)
-        } else {
-          decreaseQuantity(id)
-        }
-      }
-
       const totalPrice = cost * quantity
+
       return (
-        <li className="cart-item" data-testid="cartItem">
-          <div className="food-cart-container">
-            <img src={imageUrl} alt="restaurant" className="cart-image" />
-            <div className="cart-item-details-container">
-              <h1 className="cart-food-name">{name}</h1>
-              <div className="cart-counter-container">
+        <li className="cart-item">
+          <div className="cart-item-container" data-testid="cartItem">
+            <img className="cart-product-image" src={imageUrl} alt={name} />
+            <div className="cart-details-content-container">
+              <h1 className="cart-product-title">{name}</h1>
+
+              <div className="cart-quantity-container">
                 <button
-                  data-testid="decrement-quantity"
                   type="button"
-                  className="button"
+                  className="quantity-controller-button"
                   onClick={onClickDecrement}
+                  data-testid="decrement-quantity"
+                  aria-label="close"
                 >
-                  -
+                  <BsDashSquare color="#52606d" size={20} />
                 </button>
-                <p className="quantity-container" data-testid="item-quantity">
+                <p data-testid="item-quantity" className="cart-quantity">
                   {quantity}
                 </p>
                 <button
-                  data-testid="increment-quantity"
                   type="button"
-                  className="button"
+                  className="quantity-controller-button"
                   onClick={onClickIncrement}
+                  data-testid="increment-quantity"
+                  aria-label="close"
                 >
-                  +
+                  <BsPlusSquare color="#52606d" size={20} />
                 </button>
               </div>
-              <div className="price-icon-container">
-                <BiRupee size={20} className="rupee-icon" />
-                <p className="total-price">{totalPrice}.00</p>
+
+              <div className="price-container">
+                <p className="cart-total-price">Rs {totalPrice}/-</p>
+                <button
+                  className="remove-button"
+                  type="button"
+                  onClick={onRemoveCartItem}
+                >
+                  Remove X
+                </button>
+                <button
+                  className="delete-button"
+                  type="button"
+                  onClick={onRemoveCartItem}
+                  aria-label="close"
+                >
+                  <AiFillCloseCircle color="#616e7c" size={20} />
+                </button>
               </div>
             </div>
-            <button
-              type="button"
-              className="close-button"
-              onClick={onClickCloseBtn}
-              aria-label="close"
-            >
-              <AiFillCloseCircle size="20" />
-            </button>
           </div>
         </li>
       )

@@ -18,25 +18,22 @@ const Footer = () => (
       <h2 className="footer-app-title">Tasty Kitchens</h2>
     </div>
     <p className="footer-caption-text">
-      The only thing we are serious about is food. Contact us on.
+      The only thing we are serious about is food. <br />
+      Contact us on.
     </p>
-
     <div className="social-media-icons-box">
       <FaInstagram
         className="social-media-icon"
-        data-testid="instagram-social-icon"
+        testid="instagram-social-icon"
       />
-      <FaTwitter
-        className="social-media-icon"
-        data-testid="twitter-social-icon"
-      />
+      <FaTwitter className="social-media-icon" testid="twitter-social-icon" />
       <FaFacebookSquare
         className="social-media-icon"
-        data-testid="facebook-social-icon"
+        testid="facebook-social-icon"
       />
       <FaPinterestSquare
         className="social-media-icon"
-        data-testid="pintrest-social-icon"
+        testid="pintrest-social-icon"
       />
     </div>
   </div>
