@@ -32,7 +32,6 @@ const FoodItemCard = props => {
         const onClickDecrement = () => {
           decrementCartItemQuantity(id)
         }
-
         const onClickIncrement = () => {
           incrementCartItemQuantity(id)
         }
@@ -45,7 +44,7 @@ const FoodItemCard = props => {
             <img src={imageUrl} alt="food-item" className="food-img" />
             <div className="food-item-content-container">
               <h1 className="food-name">{name}</h1>
-              <p className="cost">{`${cost}.00`}</p>
+              <p className="cost">{`₹ ${cost}.00`}</p>
               <p className="rating">
                 <AiFillStar className="ai-star" /> {rating}
               </p>
@@ -59,7 +58,7 @@ const FoodItemCard = props => {
                     data-testid="decrement-count"
                     aria-label="close"
                   >
-                    <BsDashSquare color="#52606d" size={20} />
+                    <BsDashSquare color="#52606D" size={20} />
                   </button>
                   <p data-testid="active-count" className="cart-quantity">
                     {quantity}
@@ -71,7 +70,7 @@ const FoodItemCard = props => {
                     data-testid="increment-count"
                     aria-label="close"
                   >
-                    <BsPlusSquare color="#52606d" size={20} />
+                    <BsPlusSquare color="#52606D" size={20} />
                   </button>
                 </div>
               ) : (

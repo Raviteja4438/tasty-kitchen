@@ -66,7 +66,7 @@ class CarouselContainer extends Component {
       data-testid="restaurants-offers-loader"
       className="carousel-loader-container"
     >
-      <Loader type="TailSpin" color="#f7931e" height="50" width="50" />
+      <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
     </div>
   )
 

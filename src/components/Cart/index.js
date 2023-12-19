@@ -1,11 +1,11 @@
 import {AiFillCloseCircle} from 'react-icons/ai'
 import CartContext from '../../context/CartContext'
 
+import Header from '../Header'
+import Footer from '../Footer'
 import EmptyCartView from '../EmptyCartView'
 import CartListView from '../CartListView'
 import CartSummary from '../CartSummary'
-import Header from '../Header'
-import Footer from '../Footer'
 
 import './index.css'
 

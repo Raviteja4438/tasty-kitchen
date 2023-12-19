@@ -59,7 +59,7 @@ class Home extends Component {
 
     const apiUrl = `https://apis.ccbp.in/restaurants-list?search=${searchInput}&offset=${offset}&limit=${limit}&sort_by_rating=${activeOptionId}`
     const options = {
-      header: {
+      headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
       method: 'GET',
@@ -123,10 +123,10 @@ class Home extends Component {
 
   renderLoadingView = () => (
     <div
-      data-testid="restaurant-list-loader"
+      data-testid="restaurants-list-loader"
       className="restaurant-loader-container"
     >
-      <Loader type="TailSpin" color="#f7931e" height="50" width="50" />
+      <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
     </div>
   )
 

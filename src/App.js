@@ -1,16 +1,18 @@
 import {Component} from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
+
 import Home from './components/Home'
 import Cart from './components/Cart'
-import NotFound from './components/NotFound'
-import LoginForm from './components/LoginForm'
+import PageNotFound from './components/PageNotFound'
+import Login from './components/Login'
+
+import './App.css'
 import ProtectedRoute from './components/ProtectedRoute'
 import RestaurantDetailSection from './components/RestaurantDetailSection'
 import CartContext from './context/CartContext'
 import PaymentSuccess from './components/PaymentSuccess'
 
-import './App.css'
-
+// eslint-disable-next-line
 const sortByOptions = [
   {
     id: 0,
@@ -131,7 +133,7 @@ class App extends Component {
         }}
       >
         <Switch>
-          <Route exact path="/login" component={LoginForm} />
+          <Route exact path="/login" component={Login} />
           <ProtectedRoute
             exact
             path="/"
@@ -149,7 +151,7 @@ class App extends Component {
             path="/payment-success"
             component={PaymentSuccess}
           />
-          <Route exact path="/not-found" component={NotFound} />
+          <Route exact path="/not-found" component={PageNotFound} />
           <Redirect to="/not-found" />
         </Switch>
       </CartContext.Provider>

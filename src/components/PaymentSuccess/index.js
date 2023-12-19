@@ -3,12 +3,12 @@ import {BsFillCheckCircleFill} from 'react-icons/bs'
 
 import Header from '../Header'
 
-import CarContext from '../../context/CartContext'
+import CartContext from '../../context/CartContext'
 
 import './index.css'
 
 const PaymentSuccess = () => (
-  <CarContext.Consumer>
+  <CartContext.Consumer>
     {value => {
       const {removeAllCartItems} = value
 
@@ -37,7 +37,7 @@ const PaymentSuccess = () => (
         </>
       )
     }}
-  </CarContext.Consumer>
+  </CartContext.Consumer>
 )
 
 export default PaymentSuccess

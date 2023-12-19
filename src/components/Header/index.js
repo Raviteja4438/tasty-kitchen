@@ -74,7 +74,7 @@ class Header extends Component {
           <div className="navbar-logo-title-container">
             <Link to="/">
               <img
-                src="https://res.cloudinary.com/chandanswamy/image/upload/v1687847733/Frame_274_j3lpbz.png"
+                src="https://res.cloudinary.com/dlngyh6jo/image/upload/v1700646763/Frame_274_v2fsib.png"
                 alt="website logo"
                 className="nav-image"
               />

@@ -28,7 +28,7 @@ const RestaurantHeader = props => {
       </div>
       <div className="filter-container">
         <p className="restaurant-list-description">
-          Select your favourite restaurant special dish and make your day
+          Select Your favourite restaurant special dish and make your day
           happy...
         </p>
         <div className="sort-by-container">
