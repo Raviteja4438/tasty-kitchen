@@ -166,7 +166,7 @@ class Home extends Component {
             <RestaurantCard
               restaurantData={restaurant}
               key={restaurant.id}
-              testid="restaurant-item"
+              data-testid="restaurant-item"
             />
           ))}
         </ul>

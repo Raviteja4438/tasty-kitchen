@@ -13,4 +13,4 @@ window.matchMedia =
     }
   }
 
-configure({testIdAttribute: 'testid'})
+configure({testIdAttribute: 'data-testid'})
